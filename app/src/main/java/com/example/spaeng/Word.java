@@ -1,6 +1,7 @@
 package com.example.spaeng;
 
-public class Word {
+public class Word
+{
     private String defaultTranslation;
     private String spanishTranslation;
 
@@ -8,5 +9,13 @@ public class Word {
     {
         defaultTranslation = english;
         spanishTranslation = spanish;
+    }
+    public String getDefaultTranslation()
+    {
+        return defaultTranslation;
+    }
+    public String getSpanishTranslation()
+    {
+        return spanishTranslation;
     }
 }
