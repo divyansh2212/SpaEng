@@ -3,7 +3,6 @@ package com.example.spaeng;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class NumbersActivity extends AppCompatActivity {
 //        }
         WordAdapter itemsAdapter = new WordAdapter(this, words);
 
-        ListView listView =  findViewById(R.id.list);
+        ListView listView =  findViewById(R.id.numbers_list);
 
         listView.setAdapter(itemsAdapter);
     }
