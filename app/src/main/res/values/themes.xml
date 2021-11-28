@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.SpaEng" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#9C27B0</item>
-        <item name="colorPrimaryVariant">#7B1FA2</item>
+        <item name="colorPrimary">#7B3F00</item>
+        <item name="colorPrimaryVariant">#5C4033</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#80CBC4</item>

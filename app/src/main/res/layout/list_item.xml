@@ -8,6 +8,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/list_item_height"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,26 +16,30 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="242dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/list_item_height"
+            android:minHeight="@dimen/list_item_height"
+            android:background="@color/tan"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <LinearLayout
+            android:id="@+id/text_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:background="@color/orange"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
 
             <TextView
                 android:id="@+id/spanishWord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
                 android:layout_weight="1"
+                android:paddingTop="16dp"
                 android:text="TextView"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -43,9 +48,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
                 android:layout_weight="1"
+                android:paddingBottom="16dp"
                 android:text="TextView"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>

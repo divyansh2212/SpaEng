@@ -26,7 +26,7 @@ public class PhrasesActivity extends AppCompatActivity {
         words.add(new Word("What?","¿Qué?"));
         words.add(new Word("Where?","¿Dónde?"));
 
-        WordAdapter itemsAdapter = new WordAdapter(this,words);
+        WordAdapter itemsAdapter = new WordAdapter(this,words,R.color.category_phrases);
         ListView items = findViewById(R.id.phrases_list);
         items.setAdapter(itemsAdapter);
     }
