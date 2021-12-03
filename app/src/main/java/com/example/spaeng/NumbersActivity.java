@@ -2,6 +2,8 @@ package com.example.spaeng;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +12,25 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class NumbersActivity extends AppCompatActivity {
+public class NumbersActivity extends AppCompatActivity
+{
     MediaPlayer mediaPlayer;
-    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+    AudioManager audioManager;
+    final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int i) {
+            if(i == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || i == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK)
+            {
+                mediaPlayer.pause();
+                mediaPlayer.seekTo(0);
+            }
+            else if(i == AudioManager.AUDIOFOCUS_LOSS)
+                releaseMediaPlayer();
+            else if(i == AudioManager.AUDIOFOCUS_GAIN)
+                mediaPlayer.start();
+        }
+    };
+    private final MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
             releaseMediaPlayer();
@@ -35,13 +53,8 @@ public class NumbersActivity extends AppCompatActivity {
         words.add(new Word("Nine", "wo’e", R.drawable.number_nine, R.raw.number_nine));
         words.add(new Word("Ten", "na’aacha", R.drawable.number_ten, R.raw.number_ten));
 
-//        for(int i=0; i < words.size(); i++)
-//        {
-//            LinearLayout rootview = findViewById(R.id.rootview);
-//            TextView wordview = new TextView(this);
-//            wordview.setText(words.get(i));
-//            rootview.addView(wordview);
-//        }
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         WordAdapter itemsAdapter = new WordAdapter(this, words, R.color.category_numbers);
 
         ListView listView = findViewById(R.id.numbers_list);
@@ -53,11 +66,26 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Word currentWord = words.get(i);
                 releaseMediaPlayer();
-                mediaPlayer = MediaPlayer.create(NumbersActivity.this, currentWord.getAudioResourceId());
-                mediaPlayer.start();
-                mediaPlayer.setOnCompletionListener(mCompletionListener);
+
+                int result = audioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                            // Hint: the music stream.
+                    AudioManager.STREAM_MUSIC,
+                            // Request permanent focus.
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                  if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                  {
+                      mediaPlayer = MediaPlayer.create(NumbersActivity.this, currentWord.getAudioResourceId());
+                      mediaPlayer.start();
+                      mediaPlayer.setOnCompletionListener(mCompletionListener);
+                  }
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseMediaPlayer();
     }
 
     private void releaseMediaPlayer() {
@@ -71,6 +99,9 @@ public class NumbersActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mediaPlayer = null;
+
+            // Abandon audioFocus
+        //    audioManager.abandonAudioFocusRequest(mOnAudioFocusChangeListener);
         }
     }
 }
